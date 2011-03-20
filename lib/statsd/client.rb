@@ -12,8 +12,7 @@ module StatsD
 
     def time(key, sample_rate = 1, &block)
       seconds = Benchmark.realtime { block.call }
-      ms = (seconds * 1000).round
-      send_data({ key => "#{ms}|ms" }, sample_rate)
+      timing(key, (seconds * 1000).round, sample_rate)
     end
 
     def timing(key, ms, sample_rate = 1)
