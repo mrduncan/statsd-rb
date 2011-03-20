@@ -108,8 +108,21 @@ describe StatsD::Client do
 
     describe "time" do
       it "sends the time" do
-        @client.should_receive(:send_data).with(:archive => "10|ms")
+        @client.should_receive(:send_data).with({ :archive => "10|ms" }, 1)
         @client.time(:archive) { sleep 0.01 }
+      end
+    end
+  end
+
+  describe "sampling" do
+    before :each do
+      @client = described_class.new
+    end
+
+    describe "time" do
+      it "sends the sampled time" do
+        @client.should_receive(:send_data).with({ :archive => "10|ms" }, 0.1)
+        @client.time(:archive, 0.1) { sleep 0.01 }
       end
     end
   end

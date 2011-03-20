@@ -10,10 +10,10 @@ module StatsD
       @port = (options[:port] || 8125).to_i
     end
 
-    def time(key, &block)
+    def time(key, sample_rate = 1, &block)
       seconds = Benchmark.realtime { block.call }
       ms = (seconds * 1000).round
-      send_data key => "#{ms}|ms"
+      send_data({ key => "#{ms}|ms" }, sample_rate)
     end
 
     def incr(key, increment = 1)
@@ -24,11 +24,12 @@ module StatsD
       incr(key, -decrement)
     end
 
-    def send_data(data)
+    def send_data(data, sample_rate = 1)
       socket = UDPSocket.new
       socket.bind("127.0.0.1", 0)
       socket.connect(@hostname, @port)
       data.each do |key, val|
+        val += "|@#{sample_rate}" if sample_rate != 1
         socket.send "#{key}:#{val}", 0
       end
     end
