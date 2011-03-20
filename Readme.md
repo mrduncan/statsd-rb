@@ -35,7 +35,6 @@ Time the archive job:
 TODO
 ----
 
-- Sampling
 - Bulk updating
 
 Author

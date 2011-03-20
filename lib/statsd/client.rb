@@ -16,20 +16,20 @@ module StatsD
       send_data({ key => "#{ms}|ms" }, sample_rate)
     end
 
-    def incr(key)
-      incrby(key, 1)
+    def incr(key, sample_rate = 1)
+      incrby(key, 1, sample_rate)
     end
 
-    def incrby(key, increment)
-      send_data key => "#{increment}|c"
+    def incrby(key, increment, sample_rate = 1)
+      send_data({ key => "#{increment}|c" }, sample_rate)
     end
 
-    def decr(key)
-      decrby(key, 1)
+    def decr(key, sample_rate = 1)
+      decrby(key, 1, sample_rate)
     end
 
-    def decrby(key, decrement)
-      incrby(key, -decrement)
+    def decrby(key, decrement, sample_rate = 1)
+      incrby(key, -decrement, sample_rate)
     end
 
     def send_data(data, sample_rate = 1)

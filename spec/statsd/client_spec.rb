@@ -84,28 +84,28 @@ describe StatsD::Client do
 
     describe "incr" do
       it "sends the increment" do
-        @client.should_receive(:send_data).with(:hits => "1|c")
+        @client.should_receive(:send_data).with({ :hits => "1|c" }, 1)
         @client.incr :hits
       end
     end
 
     describe "incrby" do
       it "sends the specified increment value" do
-        @client.should_receive(:send_data).with(:hits => "3|c")
+        @client.should_receive(:send_data).with({ :hits => "3|c" }, 1)
         @client.incrby :hits, 3
       end
     end
 
     describe "decr" do
       it "sends the decrement" do
-        @client.should_receive(:send_data).with(:invites => "-1|c")
+        @client.should_receive(:send_data).with({ :invites => "-1|c" }, 1)
         @client.decr :invites
       end
     end
 
     describe "decrby" do
       it "sends the specified decrement value" do
-        @client.should_receive(:send_data).with(:tickets => "-4|c")
+        @client.should_receive(:send_data).with({ :tickets => "-4|c" }, 1)
         @client.decrby :tickets, 4
       end
     end
@@ -121,6 +121,34 @@ describe StatsD::Client do
   describe "sampling" do
     before :each do
       @client = described_class.new
+    end
+
+    describe "incr" do
+      it "sends the sampleed increment" do
+        @client.should_receive(:send_data).with({ :hits => "1|c" }, 0.2)
+        @client.incr :hits, 0.2
+      end
+    end
+
+    describe "incrby" do
+      it "sends the sampled increment" do
+        @client.should_receive(:send_data).with({ :hits => "3|c" }, 0.2)
+        @client.incrby :hits, 3, 0.2
+      end
+    end
+
+    describe "decr" do
+      it "sends the sampled decrement" do
+        @client.should_receive(:send_data).with({ :invites => "-1|c" }, 0.5)
+        @client.decr :invites, 0.5
+      end
+    end
+
+    describe "decrby" do
+      it "sends the sampled decrement" do
+        @client.should_receive(:send_data).with({ :tickets => "-4|c" }, 0.5)
+        @client.decrby :tickets, 4, 0.5
+      end
     end
 
     describe "time" do
