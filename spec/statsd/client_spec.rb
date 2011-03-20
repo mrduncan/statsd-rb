@@ -87,10 +87,12 @@ describe StatsD::Client do
         @client.should_receive(:send_data).with(:hits => "1|c")
         @client.incr :hits
       end
+    end
 
+    describe "incrby" do
       it "sends the specified increment value" do
         @client.should_receive(:send_data).with(:hits => "3|c")
-        @client.incr :hits, 3
+        @client.incrby :hits, 3
       end
     end
 
@@ -99,10 +101,12 @@ describe StatsD::Client do
         @client.should_receive(:send_data).with(:invites => "-1|c")
         @client.decr :invites
       end
+    end
 
+    describe "decrby" do
       it "sends the specified decrement value" do
         @client.should_receive(:send_data).with(:tickets => "-4|c")
-        @client.decr :tickets, 4
+        @client.decrby :tickets, 4
       end
     end
 
