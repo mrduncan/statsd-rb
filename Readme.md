@@ -22,6 +22,12 @@ Increment the downloads count:
 
     client.incr :downloads
 
+Increment the downloads count, telling StatsD that the counter is being
+sampled every 10th time.  All commands take an optional last argument
+`sample_rate`.
+
+    client.incr :downloads, 0.1
+
 Decrement the invites count by two:
 
     client.decrby :invites, 2
