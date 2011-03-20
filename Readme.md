@@ -38,6 +38,10 @@ Time the archive job:
       # something
     end
 
+Send an already calculated timing:
+
+    client.timing :archive, 300  # milliseconds
+
 TODO
 ----
 
