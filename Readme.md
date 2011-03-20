@@ -24,7 +24,7 @@ Increment the downloads count:
 
 Decrement the invites count by two:
 
-    client.decr :invites, 2
+    client.decrby :invites, 2
 
 Time the archive job:
 
