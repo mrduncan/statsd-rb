@@ -16,6 +16,10 @@ module StatsD
       send_data({ key => "#{ms}|ms" }, sample_rate)
     end
 
+    def timing(key, ms, sample_rate = 1)
+      send_data({ key => "#{ms}|ms" }, sample_rate)
+    end
+
     def incr(key, sample_rate = 1)
       incrby(key, 1, sample_rate)
     end

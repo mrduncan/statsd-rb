@@ -110,6 +110,13 @@ describe StatsD::Client do
       end
     end
 
+    describe "timing" do
+      it "sends the timing" do
+        @client.should_receive(:send_data).with({ :archive => "230|ms" }, 1)
+        @client.timing :archive, 230
+      end
+    end
+
     describe "time" do
       it "sends the time" do
         @client.should_receive(:send_data).with({ :archive => "10|ms" }, 1)
@@ -148,6 +155,13 @@ describe StatsD::Client do
       it "sends the sampled decrement" do
         @client.should_receive(:send_data).with({ :tickets => "-4|c" }, 0.5)
         @client.decrby :tickets, 4, 0.5
+      end
+    end
+
+    describe "timing" do
+      it "sends the sampled timing" do
+        @client.should_receive(:send_data).with({ :archive => "230|ms" }, 0.1)
+        @client.timing :archive, 230, 0.1
       end
     end
 
