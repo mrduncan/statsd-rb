@@ -2,6 +2,11 @@ statsd-rb
 =========
 A ruby client for [StatsD](https://github.com/etsy/statsd).
 
+Installation
+------------
+
+    gem install statsd-rb
+
 Usage
 -----
 Connecting to a StatsD instance:
